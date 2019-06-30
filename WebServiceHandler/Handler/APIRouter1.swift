@@ -2,7 +2,7 @@
 //  APIRouter.swift
 //  WebServiceHandler
 //
-//  Created by Salahuddin Yousuf on 2/5/19.
+//  Created by Anamul Habib on 2/5/19.
 //  Copyright © 2019 SSL Wireless. All rights reserved.
 //
 
@@ -16,9 +16,9 @@ enum APIRouter1{
     var requestBuilder: RequestBuilder{
         switch self {
         case .api1:
-            return RequestBuilder.init(path: "posts", method: .get, params: nil, headers: RequestBuilder.getHeaders())
+            return RequestBuilder.init(path: "posts", method: .get, params: nil, additionalHeaders: nil)
         case .api2(let param1, let param2):
-            return RequestBuilder.init(path: "api2", method: .post, params: ["key1" : param1, "key" : param2], headers: RequestBuilder.getHeaders())
+            return RequestBuilder.init(path: "api2", method: .post, params: ["key1" : param1, "key" : param2], additionalHeaders: nil)
         }
     }
     

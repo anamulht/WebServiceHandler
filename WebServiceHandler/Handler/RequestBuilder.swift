@@ -2,7 +2,7 @@
 //  RequestBuilder.swift
 //  WebServiceHandler
 //
-//  Created by Salahuddin Yousuf on 2/5/19.
+//  Created by Anamul Habib on 2/5/19.
 //  Copyright © 2019 SSL Wireless. All rights reserved.
 //
 
@@ -10,27 +10,28 @@ import Foundation
 import Alamofire
 
 
-public struct RequestBuilder : URLRequestConvertible {
-    public let path: String
-    public let method: HTTPMethod
-    public let params: [String: Any?]?
-    public let headers: HTTPHeaders
+struct RequestBuilder : URLRequestConvertible {
     
-    public init (path: String, method: HTTPMethod, params: [String: Any?]?, headers: HTTPHeaders) {
+    let path: String
+    let method: HTTPMethod
+    let params: [String: Any?]?
+    let additionalHeaders: HTTPHeaders?
+    
+    init (path: String, method: HTTPMethod, params: [String: Any?]?, additionalHeaders: HTTPHeaders?) {
         self.path = path
         self.method = method
         self.params = params
-        self.headers = headers
+        self.additionalHeaders = additionalHeaders
     }
     
     
-    public func asURLRequest() throws -> URLRequest {
-        let url = try K.ProductionServer.baseURL.asURL()
-        //let url = try K.DevelopmentServer.baseURL.asURL()
+    func asURLRequest() throws -> URLRequest {
+        
+        let url = try K.BaseURL.Production.urlString.asURL()
         
         var urlRequest = URLRequest(url: url.appendingPathComponent(self.path))
         urlRequest.httpMethod = self.method.rawValue
-        urlRequest.httpHeaders = self.headers
+        urlRequest.httpHeaders = getHeaders()
         
         if let parameters = self.params {
             do {
@@ -44,15 +45,18 @@ public struct RequestBuilder : URLRequestConvertible {
     }
     
     
-    public static func getHeaders() -> HTTPHeaders {
-        let headers: HTTPHeaders = [
+    private func getHeaders() -> HTTPHeaders {
+        
+        var headers: HTTPHeaders = [
             HTTPHeaderField.acceptType.rawValue : ContentType.json.rawValue,
             HTTPHeaderField.contentType.rawValue : ContentType.json.rawValue
         ]
         
-        //        if let authToken = UserDefaults.standard.string(forKey: Constants.BEARER) {
-        //            headers["Authorization"] = "Bearer" + " " + authToken
-        //        }
+        if let additionalHeaders = additionalHeaders{
+            for header in additionalHeaders{
+                headers.add(header)
+            }
+        }
         
         return headers
     }

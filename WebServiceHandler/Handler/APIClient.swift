@@ -2,13 +2,14 @@
 //  APIClient.swift
 //  WebServiceHandler
 //
-//  Created by Salahuddin Yousuf on 2/5/19.
+//  Created by Anamul Habib on 2/5/19.
 //  Copyright © 2019 SSL Wireless. All rights reserved.
 //
 
 import Alamofire
 
 class APIClient {
+    
     @discardableResult
     private static func performRequest<T:Decodable>(requestBuilder:RequestBuilder, decoder: JSONDecoder = JSONDecoder(), completion:@escaping (Result<T>)->Void) -> DataRequest {
         return AF.request(requestBuilder)

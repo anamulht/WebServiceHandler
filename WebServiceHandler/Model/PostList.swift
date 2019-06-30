@@ -2,7 +2,7 @@
 //  PostList.swift
 //  WebServiceHandler
 //
-//  Created by Salahuddin Yousuf on 2/5/19.
+//  Created by Anamul Habib on 2/5/19.
 //  Copyright © 2019 SSL Wireless. All rights reserved.
 //
 
